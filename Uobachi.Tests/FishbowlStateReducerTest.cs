@@ -7,9 +7,9 @@ public class FishbowlStateReducerTest
     public void AddUser_WithNew_AddsUserInAudienceToFishbowl()
     {
         // Arrange
-        var initialState = FishbowlState.New;
+        var state = FishbowlState.New;
         var userId = UserId.New();
-        var expectedState = FishbowlState.New with
+        var expected = FishbowlState.New with
         {
             Users = [
                 User.New(userId),
@@ -20,9 +20,71 @@ public class FishbowlStateReducerTest
         };
 
         // Act
-        var result = initialState.AddUser(userId);
+        var result = state.AddUser(userId);
 
         // Assert
-        result.Should().BeEquivalentTo(expectedState);
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [TestMethod]
+    public void SwitchPosition_WithUserInAudience_MovesUserToBowl()
+    {
+        // Arrange
+        var userId = UserId.New();
+        var state = FishbowlState.New with
+        {
+            Users = [
+                User.New(userId),
+            ],
+            Audience = [
+                userId,  
+            ],
+        };
+        var expected = FishbowlState.New with
+        {
+            Users = [
+                User.New(userId),
+            ],
+            Bowl = [
+                userId,  
+            ],
+        };
+
+        // Act
+        var result = state.SwitchPosition(userId);
+
+        // Assert
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [TestMethod]
+    public void SwitchPosition_WithUserInBowl_MovesUserToAudience()
+    {
+        // Arrange
+        var userId = UserId.New();
+        var state = FishbowlState.New with
+        {
+            Users = [
+                User.New(userId),
+            ],
+            Bowl = [
+                userId,  
+            ],
+        };
+        var expected = FishbowlState.New with
+        {
+            Users = [
+                User.New(userId),
+            ],
+            Audience = [
+                userId,  
+            ],
+        };
+
+        // Act
+        var result = state.SwitchPosition(userId);
+
+        // Assert
+        result.Should().BeEquivalentTo(expected);
     }
 }

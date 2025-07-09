@@ -13,4 +13,25 @@ public static class FishbowlStateReducer
             userId,
         ],
     };
+
+    public static FishbowlState SwitchPosition(this FishbowlState source, UserId userId) =>
+        source.Audience.Contains(userId)
+            ? source with
+            {
+                Audience = source.Audience.Except([userId]).ToList(),
+                Bowl =
+                [
+                    ..source.Bowl,
+                    userId,
+                ],
+            }
+            : source with
+            {
+                Audience =
+                [
+                    ..source.Audience,
+                    userId,
+                ],
+                Bowl = source.Bowl.Except([userId]).ToList(),
+            };
 }
