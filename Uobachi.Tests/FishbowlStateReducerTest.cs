@@ -25,6 +25,40 @@ public class FishbowlStateReducerTest
         // Assert
         result.Should().BeEquivalentTo(expected);
     }
+    
+    [TestMethod]
+    public void AddUser_WithUserInAudience_AddsUserInAudienceToFishbowl()
+    {
+        // Arrange
+        var existingUserId = UserId.New();
+        var state = FishbowlState.New with
+        {
+            Users = [
+                User.New(existingUserId),
+            ],
+            Audience = [
+                existingUserId,
+            ],
+        };
+        var userId = UserId.New();
+        var expected = state with
+        {
+            Users = [
+                ..state.Users,
+                User.New(userId),
+            ],
+            Audience = [
+                ..state.Audience,
+                userId,
+            ],
+        };
+
+        // Act
+        var result = state.AddUser(userId);
+
+        // Assert
+        result.Should().BeEquivalentTo(expected);
+    }
 
     [TestMethod]
     public void SwitchPosition_WithUserInAudience_MovesUserToBowl()

@@ -10,6 +10,7 @@ public static class FishbowlStateReducer
             User.New(userId),
         ],
         Audience = [
+            ..source.Audience,
             userId,
         ],
     };
