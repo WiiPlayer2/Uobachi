@@ -13,6 +13,7 @@ builder.Services
     .AddTypeConverter<UserId, Guid>(x => x.Value)
     .AddTypeConverter<Guid, UserId>(UserId.From);
 
+builder.Services.AddWebServices();
 builder.Services.AddApplicationServices();
 
 var app = builder.Build();

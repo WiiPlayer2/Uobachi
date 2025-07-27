@@ -7,9 +7,9 @@ public class Mutation
 {
     public UserId Join([Service] Fishbowl fishbowl) => fishbowl.Join();
 
-    public bool Switch(UserId userId, [Service] Fishbowl fishbowl)
+    public bool Switch([Service] Fishbowl fishbowl)
     {
-        fishbowl.Switch(userId);
+        fishbowl.Switch();
         return true;
     }
 }
