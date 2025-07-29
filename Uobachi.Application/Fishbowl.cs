@@ -2,7 +2,7 @@
 
 namespace Uobachi.Application;
 
-public class Fishbowl(IIdentity identity, Store<FishbowlState, FishbowlStateAction> store)
+public class Fishbowl(IIdentity identity, FishbowlStore store)
 {
     public UserId Join()
     {
@@ -18,6 +18,8 @@ public class Fishbowl(IIdentity identity, Store<FishbowlState, FishbowlStateActi
     }
 
     public FishbowlState Current => store.Current;
+
+    public IObservable<FishbowlState> Updates => store;
     
     public User User => store.Current.Users.First(x => x.Id == identity.UserId);
 }

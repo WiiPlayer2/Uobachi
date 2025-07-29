@@ -7,8 +7,8 @@ namespace Uobachi.Web;
 
 public class Subscription
 {
-    [Subscribe(With = nameof(SubscribeToState))]
-    public FishbowlState GetState([EventMessage] FishbowlState state) => state;
+    [Subscribe(With = nameof(SubscribeToFishbowl))]
+    public FishbowlState GetFishbowl([EventMessage] FishbowlState state) => state;
 
-    public IObservable<FishbowlState> SubscribeToState([Service] Store<FishbowlState, FishbowlStateAction> store) => store;
+    public IObservable<FishbowlState> SubscribeToFishbowl([Service] Fishbowl fishbowl) => fishbowl.Updates;
 }
