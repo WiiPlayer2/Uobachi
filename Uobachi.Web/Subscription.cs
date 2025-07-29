@@ -10,5 +10,5 @@ public class Subscription
     [Subscribe(With = nameof(SubscribeToState))]
     public FishbowlState GetState([EventMessage] FishbowlState state) => state;
 
-    public IObservable<FishbowlState> SubscribeToState([Service] Store<FishbowlState> store) => store;
+    public IObservable<FishbowlState> SubscribeToState([Service] Store<FishbowlState, FishbowlStateAction> store) => store;
 }

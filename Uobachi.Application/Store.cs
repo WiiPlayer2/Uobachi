@@ -3,18 +3,18 @@ using System.Reactive.Subjects;
 
 namespace Uobachi.Application;
 
-public class Store<T>(T initialState) : IObservable<T>
+public class Store<TState, TAction>(TState initialState, Func<TState, TAction, TState> reducerFn) : IObservable<TState>
 {
-    private readonly BehaviorSubject<T> subject = new(initialState);
+    private readonly BehaviorSubject<TState> subject = new(initialState);
 
-    public T Current => subject.Value;
+    public TState Current => subject.Value;
     
     // ReSharper disable once InconsistentlySynchronizedField
-    public IDisposable Subscribe(IObserver<T> observer) => subject.Subscribe(observer);
+    public IDisposable Subscribe(IObserver<TState> observer) => subject.Subscribe(observer);
 
-    public void Apply(Func<T, T> fn)
+    public void Apply(TAction action)
     {
         lock(subject)
-            subject.OnNext(fn(subject.Value));
+            subject.OnNext(reducerFn(subject.Value, action));
     }
 }

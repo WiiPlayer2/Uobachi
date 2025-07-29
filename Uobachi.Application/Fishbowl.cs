@@ -2,19 +2,19 @@
 
 namespace Uobachi.Application;
 
-public class Fishbowl(IIdentity identity, Store<FishbowlState> store)
+public class Fishbowl(IIdentity identity, Store<FishbowlState, FishbowlStateAction> store)
 {
     public UserId Join()
     {
         identity.EnsureAuthenticated();
-        store.Apply(s => s.Apply(FishbowlStateAction.AddUser(identity.UserId)));
+        store.Apply(FishbowlStateAction.AddUser(identity.UserId));
         return identity.UserId;
     }
     
     public void Switch()
     {
         identity.EnsureAuthenticated();   
-        store.Apply(s => s.Apply(FishbowlStateAction.SwitchPosition(identity.UserId)));
+        store.Apply(FishbowlStateAction.SwitchPosition(identity.UserId));
     }
 
     public FishbowlState Current => store.Current;
