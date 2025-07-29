@@ -2,28 +2,33 @@ namespace Uobachi.Domain;
 
 public static class FishbowlStateReducer
 {
-    public static FishbowlState AddUser(this FishbowlState source, UserId userId) => source with
+    public static FishbowlState Apply(this FishbowlState source, FishbowlStateAction action) =>
+        action.Match(
+            source.AddUser,
+            source.SwitchPosition);
+    
+    private static FishbowlState AddUser(this FishbowlState source, FishbowlStateAction.AddUser_ addUser) => source with
     {
         Users =
         [
             ..source.Users,
-            User.New(userId),
+            User.New(addUser.UserId),
         ],
         Audience = [
             ..source.Audience,
-            userId,
+            addUser.UserId,
         ],
     };
 
-    public static FishbowlState SwitchPosition(this FishbowlState source, UserId userId) =>
-        source.Audience.Contains(userId)
+    private static FishbowlState SwitchPosition(this FishbowlState source, FishbowlStateAction.SwitchPosition_ switchPosition) =>
+        source.Audience.Contains(switchPosition.UserId)
             ? source with
             {
-                Audience = source.Audience.Except([userId]).ToList(),
+                Audience = source.Audience.Except([switchPosition.UserId]).ToList(),
                 Bowl =
                 [
                     ..source.Bowl,
-                    userId,
+                    switchPosition.UserId,
                 ],
             }
             : source with
@@ -31,8 +36,8 @@ public static class FishbowlStateReducer
                 Audience =
                 [
                     ..source.Audience,
-                    userId,
+                    switchPosition.UserId,
                 ],
-                Bowl = source.Bowl.Except([userId]).ToList(),
+                Bowl = source.Bowl.Except([switchPosition.UserId]).ToList(),
             };
 }

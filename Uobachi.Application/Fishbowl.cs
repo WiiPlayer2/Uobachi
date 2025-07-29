@@ -7,14 +7,14 @@ public class Fishbowl(IIdentity identity, Store<FishbowlState> store)
     public UserId Join()
     {
         identity.EnsureAuthenticated();
-        store.Apply(s => s.AddUser(identity.UserId));
+        store.Apply(s => s.Apply(FishbowlStateAction.AddUser(identity.UserId)));
         return identity.UserId;
     }
     
     public void Switch()
     {
         identity.EnsureAuthenticated();   
-        store.Apply(s => s.SwitchPosition(identity.UserId));
+        store.Apply(s => s.Apply(FishbowlStateAction.SwitchPosition(identity.UserId)));
     }
 
     public FishbowlState Current => store.Current;

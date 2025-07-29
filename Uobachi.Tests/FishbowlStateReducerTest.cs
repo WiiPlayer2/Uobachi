@@ -9,6 +9,7 @@ public class FishbowlStateReducerTest
         // Arrange
         var state = FishbowlState.New;
         var userId = UserId.New();
+        var action = FishbowlStateAction.AddUser(userId);
         var expected = FishbowlState.New with
         {
             Users = [
@@ -20,7 +21,7 @@ public class FishbowlStateReducerTest
         };
 
         // Act
-        var result = state.AddUser(userId);
+        var result = state.Apply(action);
 
         // Assert
         result.Should().BeEquivalentTo(expected);
@@ -41,6 +42,7 @@ public class FishbowlStateReducerTest
             ],
         };
         var userId = UserId.New();
+        var action = FishbowlStateAction.AddUser(userId);
         var expected = state with
         {
             Users = [
@@ -54,7 +56,7 @@ public class FishbowlStateReducerTest
         };
 
         // Act
-        var result = state.AddUser(userId);
+        var result = state.Apply(action);
 
         // Assert
         result.Should().BeEquivalentTo(expected);
@@ -65,6 +67,7 @@ public class FishbowlStateReducerTest
     {
         // Arrange
         var userId = UserId.New();
+        var action = FishbowlStateAction.SwitchPosition(userId);
         var state = FishbowlState.New with
         {
             Users = [
@@ -85,7 +88,7 @@ public class FishbowlStateReducerTest
         };
 
         // Act
-        var result = state.SwitchPosition(userId);
+        var result = state.Apply(action);
 
         // Assert
         result.Should().BeEquivalentTo(expected);
@@ -96,6 +99,7 @@ public class FishbowlStateReducerTest
     {
         // Arrange
         var userId = UserId.New();
+        var action = FishbowlStateAction.SwitchPosition(userId);
         var state = FishbowlState.New with
         {
             Users = [
@@ -116,7 +120,7 @@ public class FishbowlStateReducerTest
         };
 
         // Act
-        var result = state.SwitchPosition(userId);
+        var result = state.Apply(action);
 
         // Assert
         result.Should().BeEquivalentTo(expected);
