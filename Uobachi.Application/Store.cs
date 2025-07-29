@@ -4,24 +4,24 @@ using System.Reactive.Subjects;
 
 namespace Uobachi.Application;
 
-public class Store<TState, TAction> : IObservable<TState>, IDisposable
+public class Store<TState, TAction, TEnrichedState> : IObservable<TEnrichedState>, IDisposable
 {
-    private readonly BehaviorSubject<TState> state;
+    private readonly BehaviorSubject<TEnrichedState> state;
     private readonly Subject<TAction> actions = new();
     private readonly IDisposable reducerSubscription;
 
-    public Store(TState initialState, Func<TState, TAction, TState> reducerFn)
+    protected Store(TState initialState, Func<TState, TAction, TState> reducerFn, Func<TState, TEnrichedState> enrichFn)
     {
-        state = new BehaviorSubject<TState>(initialState);
+        state = new(enrichFn(initialState));
         reducerSubscription = actions
             .Scan(initialState, reducerFn)
+            .Select(enrichFn)
             .Subscribe(state);
     }
 
-    public TState Current => state.Value;
+    public TEnrichedState Current => state.Value;
     
-    // ReSharper disable once InconsistentlySynchronizedField
-    public IDisposable Subscribe(IObserver<TState> observer) => state.Subscribe(observer);
+    public IDisposable Subscribe(IObserver<TEnrichedState> observer) => state.Subscribe(observer);
 
     public void Apply(TAction action) => actions.OnNext(action);
 

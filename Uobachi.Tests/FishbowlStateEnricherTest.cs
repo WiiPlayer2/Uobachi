@@ -4,13 +4,13 @@ namespace Uobachi.Tests;
 public class FishbowlStateEnricherTest
 {
     [TestMethod]
-    public void Transform_WithState_ShouldCopyMembers()
+    public void Enrich_WithState_ShouldCopyMembers()
     {
         // Arrange
-        var state = FishbowlState.New;
+        var state = FishbowlCoreState.New;
 
         // Act
-        var result = FishbowlStateEnricher.Transform(state);
+        var result = FishbowlStateEnricher.Enrich(state);
 
         // Assert
         result.Should().BeEquivalentTo(state);
@@ -26,16 +26,16 @@ public class FishbowlStateEnricherTest
     [DataRow(2, 1, ValidStatus.TooMany)]
     [DataRow(3, 2, ValidStatus.TooMany)]
     [DataRow(300, 200, ValidStatus.TooMany)]
-    public void Transform_WithSpecifiedNumberOfUsersAndConfiguredSeats_ShouldSetCorrectValidStatus(int usersInBowl, int seats, ValidStatus expectedValidStatus)
+    public void Enrich_WithSpecifiedNumberOfUsersAndConfiguredSeats_ShouldSetCorrectValidStatus(int usersInBowl, int seats, ValidStatus expectedValidStatus)
     {
         // Arrange
         var userIds = Enumerable.Range(1, usersInBowl)
             .Select(_ => UserId.New())
             .ToArray();
-        var state = FishbowlState.New with
+        var state = FishbowlCoreState.New with
         {
             Users = userIds.Select(User.New).ToList(),
-            Config = FishbowlState.New.Config with
+            Config = FishbowlCoreState.New.Config with
             {
                 Seats = seats,
             },
@@ -50,7 +50,7 @@ public class FishbowlStateEnricherTest
         };
 
         // Act
-        var result = FishbowlStateEnricher.Transform(state);
+        var result = FishbowlStateEnricher.Enrich(state);
 
         // Assert
         result.Should().BeEquivalentTo(expected);

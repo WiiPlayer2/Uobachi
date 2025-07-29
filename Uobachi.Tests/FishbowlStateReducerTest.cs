@@ -7,10 +7,10 @@ public class FishbowlStateReducerTest
     public void AddUser_WithNew_AddsUserInAudienceToFishbowl()
     {
         // Arrange
-        var state = FishbowlState.New;
+        var state = FishbowlCoreState.New;
         var userId = UserId.New();
         var action = FishbowlStateAction.AddUser(userId);
-        var expected = FishbowlState.New with
+        var expected = FishbowlCoreState.New with
         {
             Users = [
                 User.New(userId),
@@ -32,7 +32,7 @@ public class FishbowlStateReducerTest
     {
         // Arrange
         var existingUserId = UserId.New();
-        var state = FishbowlState.New with
+        var state = FishbowlCoreState.New with
         {
             Users = [
                 User.New(existingUserId),
@@ -68,7 +68,7 @@ public class FishbowlStateReducerTest
         // Arrange
         var userId = UserId.New();
         var action = FishbowlStateAction.SwitchPosition(userId);
-        var state = FishbowlState.New with
+        var state = FishbowlCoreState.New with
         {
             Users = [
                 User.New(userId),
@@ -77,7 +77,7 @@ public class FishbowlStateReducerTest
                 userId,  
             ],
         };
-        var expected = FishbowlState.New with
+        var expected = FishbowlCoreState.New with
         {
             Users = [
                 User.New(userId),
@@ -100,7 +100,7 @@ public class FishbowlStateReducerTest
         // Arrange
         var userId = UserId.New();
         var action = FishbowlStateAction.SwitchPosition(userId);
-        var state = FishbowlState.New with
+        var state = FishbowlCoreState.New with
         {
             Users = [
                 User.New(userId),
@@ -109,7 +109,7 @@ public class FishbowlStateReducerTest
                 userId,  
             ],
         };
-        var expected = FishbowlState.New with
+        var expected = FishbowlCoreState.New with
         {
             Users = [
                 User.New(userId),

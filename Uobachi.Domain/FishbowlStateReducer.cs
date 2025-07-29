@@ -2,12 +2,12 @@ namespace Uobachi.Domain;
 
 public static class FishbowlStateReducer
 {
-    public static FishbowlState Apply(this FishbowlState source, FishbowlStateAction action) =>
+    public static FishbowlCoreState Apply(this FishbowlCoreState source, FishbowlStateAction action) =>
         action.Match(
             source.AddUser,
             source.SwitchPosition);
     
-    private static FishbowlState AddUser(this FishbowlState source, FishbowlStateAction.AddUser_ addUser) => source with
+    private static FishbowlCoreState AddUser(this FishbowlCoreState source, FishbowlStateAction.AddUser_ addUser) => source with
     {
         Users =
         [
@@ -20,7 +20,7 @@ public static class FishbowlStateReducer
         ],
     };
 
-    private static FishbowlState SwitchPosition(this FishbowlState source, FishbowlStateAction.SwitchPosition_ switchPosition) =>
+    private static FishbowlCoreState SwitchPosition(this FishbowlCoreState source, FishbowlStateAction.SwitchPosition_ switchPosition) =>
         source.Audience.Contains(switchPosition.UserId)
             ? source with
             {
