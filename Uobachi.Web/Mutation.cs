@@ -1,15 +1,28 @@
+using HotChocolate;
+using LanguageExt;
 using Uobachi.Application;
 using Uobachi.Domain;
+using static LanguageExt.Prelude;
 
 namespace Uobachi.Web;
 
 public class Mutation
 {
-    public UserId Join([Service] Fishbowl fishbowl) => fishbowl.Join();
+    public Unit Join([Service] Fishbowl fishbowl)
+    {
+        fishbowl.Join();
+        return unit;
+    }
 
-    public bool Switch([Service] Fishbowl fishbowl)
+    public Unit Switch([Service] Fishbowl fishbowl)
     {
         fishbowl.Switch();
-        return true;
+        return unit;
+    }
+
+    public Unit ConfigureSeats([Service] Fishbowl fishbowl, int seats)
+    {
+        fishbowl.ConfigureSeats(seats);
+        return unit;
     }
 }

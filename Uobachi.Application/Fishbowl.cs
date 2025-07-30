@@ -17,6 +17,8 @@ public class Fishbowl(IIdentity identity, FishbowlStore store)
         store.Apply(FishbowlStateAction.SwitchPosition(identity.UserId));
     }
 
+    public void ConfigureSeats(int seats) => store.Apply(FishbowlStateAction.ConfigureSeats(seats));
+
     public FishbowlState Current => store.Current;
 
     public IObservable<FishbowlState> Updates => store;

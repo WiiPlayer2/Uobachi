@@ -1,3 +1,5 @@
+using LanguageExt;
+
 namespace Uobachi.Tests;
 
 [TestClass]
@@ -117,6 +119,38 @@ public class FishbowlStateReducerTest
             Audience = [
                 userId,  
             ],
+        };
+
+        // Act
+        var result = state.Apply(action);
+
+        // Assert
+        result.Should().BeEquivalentTo(expected);
+    }
+
+    [TestMethod]
+    [DataRow(1, 3)]
+    [DataRow(3, 5)]
+    [DataRow(10, 3)]
+    [DataRow(100, 300)]
+    [DataRow(15, 15)]
+    public void ConfigureSeats_WithNewSeats_SetsSeats(int seats, int newSeats)
+    {
+        // Arrange
+        var action = FishbowlStateAction.ConfigureSeats(newSeats);
+        var state = FishbowlCoreState.New with
+        {
+            Config = FishbowlCoreState.New.Config with
+            {
+                Seats = seats,
+            },
+        };
+        var expected = new
+        {
+            Config = new
+            {
+                Seats = newSeats,
+            },
         };
 
         // Act

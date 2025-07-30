@@ -1,3 +1,4 @@
+using HotChocolate;
 using LanguageExt;
 using Uobachi.Application;
 using Uobachi.Domain;

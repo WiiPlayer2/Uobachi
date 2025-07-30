@@ -5,8 +5,18 @@ public static class FishbowlStateReducer
     public static FishbowlCoreState Apply(this FishbowlCoreState source, FishbowlStateAction action) =>
         action.Match(
             source.AddUser,
+            source.ConfigureSeats,
             source.SwitchPosition);
-    
+
+    private static FishbowlCoreState ConfigureSeats(this FishbowlCoreState source,
+        FishbowlStateAction.ConfigureSeats_ configureSeats) => source with
+    {
+        Config = source.Config with
+        {
+            Seats = configureSeats.Seats,
+        },
+    };
+
     private static FishbowlCoreState AddUser(this FishbowlCoreState source, FishbowlStateAction.AddUser_ addUser) => source with
     {
         Users =
