@@ -10,10 +10,16 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.20"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.20" PrivateAssets="all"/>
+        <PackageReference Include="ReactiveProperty.Blazor" Version="9.7.0" />
+        <PackageReference Include="System.Reactive" Version="6.1.0" />
     </ItemGroup>
 
     <ItemGroup>
         <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Uobachi.Domain\Uobachi.Domain.csproj" />
     </ItemGroup>
 
 </Project>
