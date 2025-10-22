@@ -1,4 +1,5 @@
-﻿using Uobachi.Domain;
+﻿using LanguageExt;
+using Uobachi.Domain;
 
 namespace Uobachi.Application;
 
@@ -23,5 +24,5 @@ public class Fishbowl(IIdentity identity, FishbowlStore store)
 
     public IObservable<FishbowlState> Updates => store;
     
-    public User User => store.Current.Users.First(x => x.Id == identity.UserId);
+    public Option<User> User => store.Current.Users.FirstOrDefault(x => x.Id == identity.UserId);
 }
