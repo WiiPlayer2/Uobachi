@@ -21,7 +21,15 @@ builder.Services.AddWebServices();
 builder.Services.AddApplicationServices();
 
 var app = builder.Build();
+if (app.Environment.IsDevelopment())
+{
+    app.UseWebAssemblyDebugging();
+}
+
 app.UseWebSockets();
 app.MapGraphQL();
+app.UseBlazorFrameworkFiles();
+app.UseStaticFiles();
+app.MapFallbackToFile("index.html");
 
 app.Run();

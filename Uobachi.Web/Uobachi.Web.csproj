@@ -15,10 +15,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Uobachi.Application\Uobachi.Application.csproj" />
+      <ProjectReference Include="..\Uobachi.WebClient\Uobachi.WebClient.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="HotChocolate.AspNetCore" Version="15.1.8" />
+      <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.21" />
     </ItemGroup>
 
 </Project>
