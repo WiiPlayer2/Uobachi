@@ -25,4 +25,10 @@ public class Mutation
         fishbowl.ConfigureSeats(seats);
         return unit;
     }
+
+    public Unit UpdateUser([Service] Fishbowl fishbowl, UserName name)
+    {
+        fishbowl.UpdateUser(name);
+        return unit;
+    }
 }

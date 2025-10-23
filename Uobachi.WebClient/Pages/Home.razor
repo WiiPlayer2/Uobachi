@@ -9,6 +9,10 @@
 
 Me: @me.Value
 Logged in?: @isLoggedIn.Value
+@if (!isLoggedIn.Value)
+{
+    <button @onclick="OnLoginClicked">Login</button>
+}
 
 Welcome to your new app.
 
@@ -22,5 +26,9 @@ Welcome to your new app.
     {
         me = Signal(default(User?));
         isLoggedIn = Computed(() => me.Value is not null);
+    }
+
+    private void OnLoginClicked()
+    {
     }
 }

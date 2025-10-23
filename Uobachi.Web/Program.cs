@@ -15,6 +15,9 @@ builder.Services
     .BindRuntimeType<UserId, UuidType>()
     .AddTypeConverter<UserId, Guid>(x => x.Value)
     .AddTypeConverter<Guid, UserId>(UserId.From)
+    .BindRuntimeType<UserName, StringType>()
+    .AddTypeConverter<UserName, string>(x => x.Value)
+    .AddTypeConverter<string, UserName>(UserName.From)
     .BindRuntimeType<Unit, UnitType>();
 
 builder.Services.AddWebServices();
