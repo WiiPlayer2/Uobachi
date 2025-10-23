@@ -159,4 +159,59 @@ public class FishbowlStateReducerTest
         // Assert
         result.Should().BeEquivalentTo(expected);
     }
+
+    [TestMethod]
+    [DataRow("mimi")]
+    [DataRow("Luna")]
+    [DataRow("2B")]
+    [DataRow("Ashley Mizuki Robins")]
+    [DataRow("Pascal")]
+    [DataRow("9S")]
+    public void UpdateUser_WithUser_UpdatesUser(string name)
+    {
+        // Arrange
+        var userId = UserId.New();
+        var updatedUser = User.New(userId) with
+        {
+            Name = UserName.From(name),
+        };
+        var action = FishbowlStateAction.UpdateUser(updatedUser);
+        var state = FishbowlCoreState.New with
+        {
+            Users = [
+                User.New(userId),
+            ],
+        };
+        var expected = new
+        {
+            Users = new[]
+            {
+                updatedUser,
+            },
+        };
+
+        // Act
+        var result = state.Apply(action);
+
+        // Assert
+        result.Should().BeEquivalentTo(expected);
+    }
+    
+    [TestMethod]
+    public void UpdateUser_WithoutUser_NoChange()
+    {
+        // Arrange
+        var updatedUser = User.New(UserId.New()) with
+        {
+            Name = UserName.From("Sakuya"),
+        };
+        var action = FishbowlStateAction.UpdateUser(updatedUser);
+        var state = FishbowlCoreState.New;
+
+        // Act
+        var result = state.Apply(action);
+
+        // Assert
+        result.Should().BeEquivalentTo(state);
+    }
 }

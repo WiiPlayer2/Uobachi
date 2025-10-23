@@ -6,7 +6,9 @@ public static class FishbowlStateReducer
         action.Match(
             source.AddUser,
             source.ConfigureSeats,
-            source.SwitchPosition);
+            source.SwitchPosition,
+            source.UpdateUser
+        );
 
     private static FishbowlCoreState ConfigureSeats(this FishbowlCoreState source,
         FishbowlStateAction.ConfigureSeats_ configureSeats) => source with
@@ -50,4 +52,17 @@ public static class FishbowlStateReducer
                 ],
                 Bowl = source.Bowl.Except([switchPosition.UserId]).ToList(),
             };
+
+    private static FishbowlCoreState UpdateUser(this FishbowlCoreState source,
+        FishbowlStateAction.UpdateUser_ updateUser) =>
+        source.Users.Any(x => x.Id == updateUser.User.Id)
+            ? source with
+            {
+                Users =
+                [
+                    ..source.Users.ExceptBy([updateUser.User.Id], x => x.Id),
+                    updateUser.User,
+                ]
+            }
+            : source;
 }
